@@ -11,8 +11,8 @@ for (let i = 1; i <= 41; i++) {
 // Inicialmente bloqueia botões PDV
 bloquearBotoesPDV(true);
 
-// Atualiza contador de PDVs online (simulado)
-atualizarOnlineCount();
+// Atualiza contador de PDVs online (começa em 0)
+onlineCountElem.textContent = "0";
 
 function criarBotaoPDV(pdvNum) {
   const btn = document.createElement("button");
@@ -28,19 +28,10 @@ function mostrarInfoPDV(pdvNum) {
   const dia = hoje.getDate();
   const mes = hoje.getMonth() + 1;
   const diaMesString = `${dia}${mes}`;
-  const soma = Number(diaMesString) + pdvNum;
-  const senha = `pdv@${soma}`;
+  const senha = `pdv@${Number(diaMesString) + pdvNum}`;
 
-  let ip;
-  if (pdvNum === 41) {
-    ip = "192.168.222.179";
-  } else {
-    ip = `192.168.222.${100 + pdvNum}`;
-  }
-
+  const ip = pdvNum === 41 ? "192.168.222.179" : `192.168.222.${100 + pdvNum}`;
   const ssh = `ssh suporte@${ip}`;
-
-  // Detecta Windows ou não para comando VNC
   const isWindows = navigator.userAgent.includes("Windows");
   const vncCommand = isWindows
     ? `"C:\\Program Files\\RealVNC\\VNC Viewer\\vncviewer.exe" ${ip}`
@@ -55,7 +46,6 @@ function mostrarInfoPDV(pdvNum) {
   pdvInfoSection.style.display = "block";
 }
 
-// Copiar texto corrigido com evento passado
 function copiarTexto(event, id) {
   const texto = document.getElementById(id).textContent;
   navigator.clipboard.writeText(texto).then(() => {
@@ -68,14 +58,12 @@ function copiarTexto(event, id) {
   });
 }
 
-// Evento botão liberar senha
 document.getElementById("liberar").addEventListener("click", () => {
   const senhaDigitada = document.getElementById("senha").value;
-  const correta = "1234"; // Altere a senha aqui
+  const correta = "1234"; // Altere aqui se quiser
 
   if (senhaDigitada === correta) {
     bloquearBotoesPDV(false);
-    alert("Acesso liberado!");
   } else {
     alert("Senha incorreta!");
   }
@@ -90,7 +78,6 @@ function bloquearBotoesPDV(bloquear) {
   pdvButtonsContainer.style.opacity = bloquear ? "0.4" : "1";
 }
 
-// Evento botão entrar no PDV - abre URL numa nova aba
 entrarPdvBtn.addEventListener("click", () => {
   const pdvNum = Number(document.getElementById("pdv-numero").textContent);
   if (!pdvNum) {
@@ -98,22 +85,23 @@ entrarPdvBtn.addEventListener("click", () => {
     return;
   }
 
-  let ip;
-  if (pdvNum === 41) {
-    ip = "192.168.222.179";
-  } else {
-    ip = `192.168.222.${100 + pdvNum}`;
-  }
-
+  const ip = pdvNum === 41 ? "192.168.222.179" : `192.168.222.${100 + pdvNum}`;
   const url = `http://${ip}:9898/normal.html`;
 
-  // Abre em nova aba sem tirar foco da aba atual
-  window.open(url, '_blank', 'noopener,noreferrer');
-});
+  // Abre popup centralizado
+  const largura = 900;
+  const altura = 700;
+  const esquerda = window.screenX + (window.innerWidth - largura) / 2;
+  const topo = window.screenY + (window.innerHeight - altura) / 2;
 
-// Função para simular PDVs online e atualizar contador
-function atualizarOnlineCount() {
-  // Simula entre 20 e 41 PDVs online
-  const onlineCount = Math.floor(Math.random() * 22) + 20;
-  onlineCountElem.textContent = onlineCount;
-}
+  const popup = window.open(
+    url,
+    '_blank',
+    `width=${largura},height=${altura},left=${esquerda},top=${topo},` +
+    'resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no'
+  );
+
+  if (popup) {
+    popup.focus();
+  }
+});

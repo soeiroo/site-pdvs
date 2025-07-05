@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acesso Rápido aos PDVs</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="navbar">Mix Mateus Sobral - Acesso Rápido aos PDVs</nav>
+
+<main>
+  <section class="painel-container">
+    <div id="painel-status">
+      <span id="online-count">0</span> PDVs online
+    </div>
+  </section>
+
+  <section class="senha-container">
+    <input type="password" id="senha" placeholder="Digite a senha..." />
+    <button id="liberar">Liberar</button>
+  </section>
+
+  <section class="layout-duas-colunas">
+    <div id="pdv-buttons" class="pdv-buttons"></div>
+
+    <section class="pdv-info" id="pdv-info" style="display: none;">
+      <h3>Detalhes do PDV <span id="pdv-numero"></span></h3>
+      <p><strong>IP:</strong> <span id="pdv-ip"></span></p>
+      <p><strong>Comando SSH:</strong> <code id="ssh-comando"></code></p>
+      <p><strong>Senha SSH:</strong> <code id="ssh-senha"></code></p>
+      <button id="entrar-pdv">Entrar no PDV</button>
+    </section>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

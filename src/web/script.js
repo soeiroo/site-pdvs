@@ -1,86 +1,76 @@
-const PDV_COUNT = 41;
-const PDV_41_IP = '192.168.222.179';
-const PDV_BASE_IP = '192.168.222.';
-const PDV_START = 101;
-const SENHA_PADRAO = '1234';
+const pdvButtonsContainer = document.getElementById("pdv-buttons");
 
-const senhaInput = document.getElementById('senha');
-const liberarBtn = document.getElementById('liberar');
-const pdvButtonsDiv = document.getElementById('pdv-buttons');
-const onlineCountSpan = document.getElementById('online-count');
-
-let acessoLiberado = false;
-let historico = JSON.parse(localStorage.getItem('historicoAcessos') || '[]');
-
-function criarBotoesPDV() {
-  pdvButtonsDiv.innerHTML = '';
-  for (let i = 1; i <= PDV_COUNT; i++) {
-    const btn = document.createElement('button');
-    btn.className = 'pdv-btn' + (i === 41 ? ' pdv-41' : '');
-    btn.textContent = `PDV ${i}`;
-    btn.disabled = !acessoLiberado;
-    btn.dataset.pdv = i;
-    btn.innerHTML += ' <span class="status-dot">🔴</span>';
-    btn.onclick = () => selecionarPDV(i);
-    pdvButtonsDiv.appendChild(btn);
-  }
+// Gerar botões PDV 1 a 41
+for (let i = 1; i <= 41; i++) {
+  criarBotaoPDV(i);
 }
 
-function selecionarPDV(num) {
-  const ip = num === 41 ? PDV_41_IP : PDV_BASE_IP + (PDV_START + num - 1);
+function criarBotaoPDV(pdvNum) {
+  const btn = document.createElement("button");
+  btn.className = "pdv-btn";
+  btn.textContent = `PDV ${pdvNum}`;
+  btn.onclick = () => mostrarInfoPDV(pdvNum);
+  pdvButtonsContainer.appendChild(btn);
+}
+
+function mostrarInfoPDV(pdvNum) {
   const hoje = new Date();
-  const dia = hoje.getDate(); // sem zero à esquerda
+  const dia = hoje.getDate();
   const mes = hoje.getMonth() + 1;
   const diaMesString = `${dia}${mes}`;
-  const soma = Number(diaMesString) + num;
-  const senhaSSH = `pdv@${soma}`;
-  const comandoSSH = `ssh suporte@${ip}`;
+  const soma = Number(diaMesString) + pdvNum;
+  const senha = `pdv@${soma}`;
 
-  document.getElementById('pdv-info').style.display = 'block';
-  document.getElementById('pdv-numero').textContent = num;
-  document.getElementById('pdv-ip').textContent = ip;
-  document.getElementById('ssh-comando').textContent = comandoSSH;
-  document.getElementById('ssh-senha').textContent = senhaSSH;
-
-  document.getElementById('entrar-pdv').onclick = () => {
-    window.open(`http://${ip}:9898/normal.html`, '_blank');
-    historico.push({ pdv: num, data: new Date().toISOString() });
-    localStorage.setItem('historicoAcessos', JSON.stringify(historico));
-  };
-}
-
-async function checarStatusPDVs() {
-  let online = 0;
-  const botoes = document.querySelectorAll('.pdv-btn');
-  for (let idx = 0; idx < botoes.length; idx++) {
-    const btn = botoes[idx];
-    const num = idx + 1;
-    const ip = num === 41 ? PDV_41_IP : PDV_BASE_IP + (PDV_START + num - 1);
-    let statusOnline = false;
-    if (window.pdvAPI && window.pdvAPI.pingPDV) {
-      try {
-        statusOnline = await window.pdvAPI.pingPDV(ip);
-      } catch (e) {
-        statusOnline = false;
-      }
-    }
-    btn.querySelector('.status-dot').textContent = statusOnline ? '🟢' : '🔴';
-    if (statusOnline) online++;
-  }
-  onlineCountSpan.textContent = online;
-}
-
-liberarBtn.onclick = () => {
-  if (senhaInput.value === SENHA_PADRAO) {
-    acessoLiberado = true;
-    criarBotoesPDV();
-    checarStatusPDVs();
+  let ip;
+  if (pdvNum === 41) {
+    ip = "192.168.222.179";
   } else {
-    alert('Senha incorreta!');
+    ip = `192.168.222.${100 + pdvNum}`;
   }
-};
 
-window.onload = () => {
-  criarBotoesPDV();
-  checarStatusPDVs();
-};
+  const ssh = `ssh user@${ip}`;
+
+  // Detecta Windows ou não para comando VNC
+  const isWindows = navigator.userAgent.includes("Windows");
+  const vncCommand = isWindows
+    ? `"C:\\Program Files\\RealVNC\\VNC Viewer\\vncviewer.exe" ${ip}`
+    : `vncviewer ${ip}:5900`;
+
+  document.getElementById("pdv-numero").textContent = pdvNum;
+  document.getElementById("pdv-ip").textContent = ip;
+  document.getElementById("ssh-comando").textContent = ssh;
+  document.getElementById("ssh-senha").textContent = senha;
+  document.getElementById("vnc-comando").textContent = vncCommand;
+
+  document.getElementById("pdv-info").style.display = "block";
+}
+
+// Copiar texto
+function copiarTexto(id) {
+  const texto = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const botao = event.target;
+    const textoOriginal = botao.textContent;
+    botao.textContent = "Copiado!";
+    setTimeout(() => {
+      botao.textContent = textoOriginal;
+    }, 1500);
+  });
+}
+
+// Botão liberar senha
+document.getElementById("liberar").addEventListener("click", () => {
+  const senhaDigitada = document.getElementById("senha").value;
+  const correta = "1234"; // Altere aqui
+
+  if (senhaDigitada === correta) {
+    document.getElementById("pdv-buttons").style.pointerEvents = "auto";
+    document.getElementById("pdv-buttons").style.opacity = "1";
+  } else {
+    alert("Senha incorreta!");
+  }
+});
+
+// Bloquear acesso inicial
+document.getElementById("pdv-buttons").style.pointerEvents = "none";
+document.getElementById("pdv-buttons").style.opacity = "0.4";

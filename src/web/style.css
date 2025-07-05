@@ -35,7 +35,6 @@ main {
   gap: 1.5rem;
 }
 
-/* Status e senha centralizados e com espaçamento */
 .painel-container,
 .senha-container {
   display: flex;
@@ -81,7 +80,6 @@ main {
   background: #1565c0;
 }
 
-/* Container com layout de duas colunas fixas */
 .layout-duas-colunas {
   display: flex;
   gap: 2rem;
@@ -89,23 +87,16 @@ main {
   justify-content: flex-start;
 }
 
-/* Coluna esquerda: botões - largura fixa */
 .pdv-buttons {
-  width: 38%; /* ou 35-40% */
+  width: 38%;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 14px;
   max-height: 600px;
   overflow-y: auto;
-  padding-right: 4px; /* pra evitar conteúdo “encostando” no scroll */
+  padding-right: 4px;
 }
 
-/* Se quiser botões em mais colunas, basta mudar grid-template-columns:
-   Exemplo 2 colunas:
-   grid-template-columns: repeat(2, 1fr);
-*/
-
-/* Botões estilo */
 .pdv-btn {
   padding: 1rem 1.5rem;
   border: none;
@@ -126,17 +117,11 @@ main {
   background: #bbdefb;
   transform: translateY(-2px) scale(1.03);
 }
-.pdv-btn.pdv-41 {
-  background: #ffd700;
-  color: #222;
-  font-weight: bold;
-}
 .pdv-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Coluna direita: painel info - ocupa o resto */
 .pdv-info {
   flex: 1;
   min-width: 300px;
@@ -164,6 +149,20 @@ main {
   font-family: monospace;
 }
 
+.copy-btn {
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 4px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+}
+.copy-btn:hover {
+  background: #1565c0;
+}
+
 #entrar-pdv {
   margin-top: 1rem;
   background: #1565c0;
@@ -177,7 +176,6 @@ main {
   background: #0d47a1;
 }
 
-/* Responsividade: empilha em telas menores */
 @media (max-width: 900px) {
   .layout-duas-colunas {
     flex-direction: column;

@@ -1,7 +1,11 @@
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
-  background: linear-gradient(120deg, #f4f6fa 0%, #e3eafc 100%);
+  /* Fundo com gradiente + padrão SVG tech */
+  background:
+    linear-gradient(120deg, #f4f6fa 0%, #e3eafc 100%),
+    url("data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='2' fill='%231976d2'/><path d='M2 12h4M18 12h4M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83' stroke='%231976d2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") repeat;
+  background-size: 80px 80px;
   min-height: 100vh;
   color: #222;
 }

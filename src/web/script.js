@@ -28,7 +28,7 @@ function mostrarInfoPDV(pdvNum) {
     ip = `192.168.222.${100 + pdvNum}`;
   }
 
-  const ssh = `ssh user@${ip}`;
+  const ssh = `ssh suporte@${ip}`;
 
   // Detecta Windows ou não para comando VNC
   const isWindows = navigator.userAgent.includes("Windows");

@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
 
+// Apenas recarrega em modo desenvolvimento
 if (process.env.NODE_ENV === 'development') {
   require('electron-reload')(__dirname);
 }
@@ -15,11 +16,11 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
     },
-    icon: path.join(__dirname, 'web', 'favicon.ico'),
+    icon: path.join(__dirname, 'favicon.ico'), // Atualizado
   });
 
   win.setMenuBarVisibility(false);
-  win.loadFile(path.join(__dirname, 'web', 'index.html'));
+  win.loadFile(path.join(__dirname, 'index.html')); // Atualizado
   // win.webContents.openDevTools();
 }
 
@@ -35,7 +36,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// IPC para ping
+// IPC para ping de IP
 ipcMain.handle('ping-pdv', async (event, ip) => {
   return new Promise((resolve) => {
     const isWindows = process.platform === 'win32';
@@ -48,4 +49,3 @@ ipcMain.handle('ping-pdv', async (event, ip) => {
     });
   });
 });
-

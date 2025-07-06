@@ -1,7 +1,6 @@
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
-  /* Fundo com gradiente + padrão SVG tech */
   background:
     linear-gradient(120deg, #f4f6fa 0%, #e3eafc 100%),
     url("data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='2' fill='%231976d2'/><path d='M2 12h4M18 12h4M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83' stroke='%231976d2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") repeat;
@@ -102,28 +101,46 @@ main {
 }
 
 .pdv-btn {
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   border: none;
   border-radius: 8px;
   background: #e3eafc;
   color: #222;
   font-size: 1.1rem;
-  cursor: pointer;
   min-width: 110px;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
   transition: background 0.2s, transform 0.1s;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 0.5em;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
 }
-.pdv-btn:hover:not(:disabled) {
+.pdv-btn:hover:not(.pdv-desativado) {
   background: #bbdefb;
   transform: translateY(-2px) scale(1.03);
 }
-.pdv-btn:disabled {
+
+.pdv-desativado {
   opacity: 0.5;
+  pointer-events: none;
   cursor: not-allowed;
+}
+
+.acesso-rapido {
+  font-size: 0.9rem;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.acesso-rapido:hover {
+  background: #1565c0;
 }
 
 .pdv-info {
@@ -162,6 +179,7 @@ main {
   background: #1976d2;
   color: white;
   cursor: pointer;
+  transition: background 0.2s;
 }
 .copy-btn:hover {
   background: #1565c0;
@@ -175,9 +193,11 @@ main {
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
 }
 #entrar-pdv:hover {
   background: #0d47a1;
+  transform: scale(1.03);
 }
 
 @media (max-width: 900px) {

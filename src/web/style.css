@@ -1,12 +1,18 @@
+/* ====== Modo Claro (padrão) ====== */
+
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
-  background:
-    linear-gradient(120deg, #f4f6fa 0%, #e3eafc 100%),
-    url("data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='12' cy='12' r='2' fill='%231976d2'/><path d='M2 12h4M18 12h4M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83' stroke='%231976d2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") repeat;
-  background-size: 80px 80px;
   min-height: 100vh;
   color: #222;
+
+  background-color: #e3f2fd;
+  background-image:
+    linear-gradient(120deg, #e3f2fd 0%, #bbdefb 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='none' stroke='%2390caf9' stroke-width='0.4'/></svg>");
+  background-size: 40px 40px;
+  background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 .navbar {
@@ -24,6 +30,8 @@ body {
 }
 
 main {
+  position: relative;
+  z-index: 2;
   margin-top: 90px;
   padding: 2rem 1rem 3rem;
   max-width: 1100px;
@@ -163,11 +171,13 @@ main {
   color: #1565c0;
 }
 
+/* Código com texto preto sempre */
 .pdv-info code {
   background: #fff;
   padding: 2px 6px;
   border-radius: 4px;
   font-family: monospace;
+  color: #000000; /* texto preto */
 }
 
 .copy-btn {
@@ -199,6 +209,74 @@ main {
   background: #0d47a1;
   transform: scale(1.03);
 }
+
+/* ====== Dark Mode ====== */
+
+body.dark {
+  background-color: #121212;
+  background-image:
+    linear-gradient(120deg, #1e1e1e 0%, #2c2c2c 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='none' stroke='%23555555' stroke-width='0.4'/></svg>");
+  color: #ddd;
+}
+
+body.dark .navbar {
+  background: linear-gradient(90deg, #90caf9 60%, #64b5f6 100%);
+  color: #121212;
+}
+
+body.dark main {
+  background: #1f1f1f;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+  color: #ddd;
+}
+
+body.dark .pdv-btn {
+  background: #333844;
+  color: #ddd;
+  box-shadow: none;
+}
+body.dark .pdv-btn:hover:not(.pdv-desativado) {
+  background: #455a64;
+}
+
+body.dark .pdv-info {
+  background: #2c2f3a;
+  border-color: #64b5f6;
+  box-shadow: none;
+  color: #ddd;
+}
+
+/* Código com texto preto no dark mode também */
+body.dark .pdv-info code {
+  background: #fff; /* mantém fundo branco */
+  color: #000000;   /* texto preto */
+}
+
+body.dark .copy-btn,
+body.dark #liberar,
+body.dark #entrar-pdv,
+body.dark .acesso-rapido {
+  background: #64b5f6;
+  color: #121212;
+}
+body.dark .copy-btn:hover,
+body.dark #liberar:hover,
+body.dark #entrar-pdv:hover,
+body.dark .acesso-rapido:hover {
+  background: #42a5f5;
+}
+
+body.dark input#senha {
+  background: #121212;
+  border: 1px solid #64b5f6;
+  color: #ddd;
+}
+body.dark input#senha:focus {
+  border: 1.5px solid #42a5f5;
+}
+
+/* ====== Responsividade ====== */
 
 @media (max-width: 900px) {
   .layout-duas-colunas {

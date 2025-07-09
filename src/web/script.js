@@ -121,7 +121,7 @@ entrarPdvBtn.addEventListener("click", () => {
 
 // Botões copiar
 document.querySelectorAll('.copy-btn').forEach((btn) => {
-  btn.addEventListener('click', (event) => {
+  btn.addEventListener('click', () => {
     const id = btn.dataset.target;
     const texto = document.getElementById(id).textContent;
     navigator.clipboard.writeText(texto).then(() => {
@@ -130,4 +130,16 @@ document.querySelectorAll('.copy-btn').forEach((btn) => {
       setTimeout(() => (btn.textContent = original), 1500);
     });
   });
+});
+
+// === Dark Mode ===
+
+const btnDarkMode = document.getElementById('toggle-darkmode');
+btnDarkMode.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  if (document.body.classList.contains('dark')) {
+    btnDarkMode.textContent = 'Light Mode';
+  } else {
+    btnDarkMode.textContent = 'Dark Mode';
+  }
 });

@@ -8,8 +8,6 @@ for (let i = 1; i <= 41; i++) {
   criarBotaoPDV(i);
 }
 
-bloquearBotoesPDV(true);
-onlineCountElem.textContent = "0";
 
 function criarBotaoPDV(pdvNum) {
   const btnWrapper = document.createElement("div");
@@ -47,7 +45,6 @@ function criarBotaoPDV(pdvNum) {
   btnWrapper.appendChild(titulo);
   btnWrapper.appendChild(acessoRapidoBtn);
   btnWrapper.onclick = () => mostrarInfoPDV(pdvNum);
-  btnWrapper.classList.add("pdv-desativado");
 
   pdvButtonsContainer.appendChild(btnWrapper);
 }
@@ -74,28 +71,6 @@ function mostrarInfoPDV(pdvNum) {
   pdvInfoSection.style.display = "block";
 }
 
-document.getElementById("liberar").addEventListener("click", () => {
-  const senhaDigitada = document.getElementById("senha").value;
-  const correta = "1234";
-  if (senhaDigitada === correta) {
-    bloquearBotoesPDV(false);
-  } else {
-    alert("Senha incorreta!");
-  }
-});
-
-function bloquearBotoesPDV(bloquear) {
-  const botoes = document.querySelectorAll(".pdv-btn");
-  botoes.forEach((btn) => {
-    if (bloquear) {
-      btn.classList.add("pdv-desativado");
-    } else {
-      btn.classList.remove("pdv-desativado");
-    }
-  });
-  pdvButtonsContainer.style.pointerEvents = bloquear ? "none" : "auto";
-  pdvButtonsContainer.style.opacity = bloquear ? "0.4" : "1";
-}
 
 entrarPdvBtn.addEventListener("click", () => {
   const pdvNum = Number(document.getElementById("pdv-numero").textContent);
